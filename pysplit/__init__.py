@@ -28,9 +28,10 @@ __all__ = ['Trajectory',
            'hysplit_filelister',
            'load_hysplitfile',
            'load_clusteringresults',
-           'generate_bulktraj']
+           'generate_bulktraj',
+           'generate_singletraj']
 
-__version__ = '0.3.4'
+__version__ = '0.3.4.1'
 
 from .traj import Trajectory
 
@@ -51,4 +52,4 @@ from .hy_processor import make_trajectorygroup, spawn_clusters
 from .hyfile_handler import (hysplit_filelister, load_hysplitfile,
                              load_clusteringresults)
 
-from .trajectory_generator import (generate_bulktraj)
+from .trajectory_generator import (generate_bulktraj, generate_singletraj)
