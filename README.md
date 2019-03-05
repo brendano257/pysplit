@@ -1,3 +1,8 @@
+## Branch - Specific Edits
+
+This version contains generate_singletraj() in trajectory_generator.py that allows the user to supply their own list of met files and generate one trajectory at a time. This allows for any ARL-packaged files to be used, such as the much higher resolution NAM 12KM and HRRR 3KM data sets, which can be obtained from arlftp.arlhq.noaa.gov. 
+
+
 # PySPLIT
 
 A package for generating [HYSPLIT](http://ready.arl.noaa.gov/HYSPLIT.php) air parcel trajectories trajectories, performing moisture uptake analyses, expediting HYSPLIT cluster analysis, and for visualizing trajectories, clusters, and along-trajectory meteorological data.  For a basic overview of PySPLIT, see the [SciPy 2015 conference proceedings](http://conference.scipy.org/proceedings/scipy2015/mellissa_cross_p.html).
