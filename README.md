@@ -2,6 +2,8 @@
 
 This version contains generate_singletraj() in trajectory_generator.py that allows the user to supply their own list of met files and generate one trajectory at a time. This allows for any ARL-packaged files to be used, such as the much higher resolution NAM 12KM and HRRR 3KM data sets, which can be obtained from arlftp.arlhq.noaa.gov. 
 
+A working example for running large numbers of regular or irreguarly time-stepped trajectories with HRRR 3KM data can be found at https://github.com/brendano257/pysplitprocessor
+
 
 # PySPLIT
 
