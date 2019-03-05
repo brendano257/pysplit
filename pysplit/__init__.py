@@ -31,7 +31,8 @@ __all__ = ['Trajectory',
            'generate_bulktraj',
            'generate_singletraj']
 
-__version__ = '0.3.4.1'
+__version__ = '0.3.4.3'
+# BB changed to 0.3.4.3 now that generate_singletraj returns the trajname on each call, and now returns error if traj not moved/found
 
 from .traj import Trajectory
 
