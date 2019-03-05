@@ -10,12 +10,12 @@ def generate_singletraj(basename, hysplit_working, output_dir, meteo_dir, meteof
                       meteoyr_2digits=True, outputyr_2digits=False,
                       get_reverse=False, get_clipped=False,
                       hysplit="C:\\hysplit4\\exec\\hyts_std"):
-    
+
     """
-    Almost identical to generate_bulktraj, but takes a supplied list of met files instead. 
+    Almost identical to generate_bulktraj, but takes a supplied list of met files instead.
 	It is compatible with *any* ARL-packaged files so long as the user parses the required
 	filenames for each run that's passed to this function.
-	
+
 	Parameters
     ----------
     basename : string
@@ -47,7 +47,7 @@ def generate_singletraj(basename, hysplit_working, output_dir, meteo_dir, meteof
         the last 2 or all 4 digits of the years.  Must set to False if have
         multiple decades of meteorology files in meteo_dir.
     outputyr_2digits : Boolean
-        Default False.  Old behavior == True.  The number of digits (2 or 4) to 
+        Default False.  Old behavior == True.  The number of digits (2 or 4) to
         use to identify year in trajectory filename.  Must keep as False if
         wish PySPLIT to correctly identify non-21st century trajectories later
     get_reverse : Boolean
@@ -64,20 +64,30 @@ def generate_singletraj(basename, hysplit_working, output_dir, meteo_dir, meteof
         Default "C:\\hysplit4\\exec\\hyts_std".  The location of the "hyts_std"
         executable that generates trajectories.  This is the default location
         for a typical PC installation of HYSPLIT
+
+    Returns
+    -------
+    trajname : string
+        name of the generated trajectory
+
+    err : boolean, 0 if no error, 1 if moving the final file failed
+
     """
-    
+    # Set trajname so it can't fail if un-generated
+    trajname = None
+
     # Set year formatting in 3 places
     yr_is2digits = {True : _year2string,
                     False : str}
-    
+
     controlyearfunc = yr_is2digits[True]
     fnameyearfunc = yr_is2digits[outputyr_2digits]
-    
+
     if outputyr_2digits is False or meteoyr_2digits is False:
         if len(str(year)) != 4:
             raise ValueError("%d is not a valid year for given" \
                              " meteoyr_2digits, outputyr_2digits" %year)
-    
+
     controlfname = 'CONTROL'
 
     # Get directory information, make directories if necessary
@@ -107,7 +117,7 @@ def generate_singletraj(basename, hysplit_working, output_dir, meteo_dir, meteof
         os.chdir(hysplit_working)
 
         # Iterate over years and months
-        
+
         season = mon_dict[month][0]
         m_str = mon_dict[month][1]
 
@@ -140,12 +150,18 @@ def generate_singletraj(basename, hysplit_working, output_dir, meteo_dir, meteof
         if get_clipped:
             _cliptraj(output_cdir, trajname)
 
-        # Move the trajectory file to output directory
-        os.rename(trajname, final_trajpath)
+        try:
+            # Move the trajectory file to output directory
+            os.rename(trajname, final_trajpath)
+            err = 0
+        except:
+            err = 1
+            print(f'Trajectory {trajname} not found when attempting to move and rename.')
 
     # Revert current working directory
     finally:
         os.chdir(cwd)
+        return (trajname, err)
 
 def generate_bulktraj(basename, hysplit_working, output_dir, meteo_dir, years,
                       months, hours, altitudes, coordinates, run,
